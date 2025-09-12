@@ -14,9 +14,10 @@ public class JwtUtil {
     private final String JWT_SECRET = "SecretSecretSecretSecretSecretSecretSecretSecretSecretSecret";
     private final Long EXPIRATION_MS = 10L * 24 * 60 * 60 * 1000;
 
-    public String generateJwtToken(String username){
+    public String generateJwtToken(String username, String role){
         return Jwts.builder()
                 .setSubject(username)
+                .claim("role", role)
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis()+EXPIRATION_MS))
                 .signWith(SignatureAlgorithm.HS256,JWT_SECRET)
