@@ -20,6 +20,7 @@ public class AppointmentController {
 
     @PostMapping
     public ResponseEntity<ResponseDto> bookAppointment(@RequestBody AppointmentRequestDto requestDto) {
+        System.out.println("Triggered");
         return new ResponseEntity<>(appointmentService.bookAppointment(requestDto), HttpStatus.CREATED);
     }
 
