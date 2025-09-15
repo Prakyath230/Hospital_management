@@ -22,6 +22,7 @@ public class MedicineController {
     @PostMapping
     public ResponseEntity<ResponseDto> addMedicine(@RequestBody MedicineRequestDto requestDto) {
         return new ResponseEntity<>(medicineService.addMedicine(requestDto), HttpStatus.CREATED);
+
     }
 
     @GetMapping("/{id}")
