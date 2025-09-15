@@ -31,6 +31,7 @@ public class MedicineController {
 
     @GetMapping
     public ResponseEntity<List<MedicineResponseDto>> getAllMedicines() {
+        System.out.println("Triggered /api/medicine");  // correct debug print
         return ResponseEntity.ok(medicineService.getAllMedicines());
     }
 
