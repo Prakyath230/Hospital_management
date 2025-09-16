@@ -69,7 +69,10 @@ public class UserService {
         User user=userRepo.findByUserName(requestDto.getUserName())
                 .orElseThrow(()-> new ResourceNotFoundException("User not found with user name "+requestDto.getUserName()));
 
-        return new AuthResponseDto(jwtUtil.generateJwtToken(user.getUserName(), user.getRole()), user.getRole());
+        return new AuthResponseDto(
+                jwtUtil.generateJwtToken(user.getUserName(), user.getRole()),
+                user.getRole()
+        );
 
     }
 }
