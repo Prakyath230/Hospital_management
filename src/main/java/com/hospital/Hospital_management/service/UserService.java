@@ -73,6 +73,5 @@ public class UserService {
                 jwtUtil.generateJwtToken(user.getUserName(), user.getRole()),
                 user.getRole()
         );
-
     }
 }
