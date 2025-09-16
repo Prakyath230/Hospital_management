@@ -21,7 +21,6 @@ public class CartController {
     @PreAuthorize("hasRole('PATIENT')")
     @PostMapping("/medicine/{medicineId}")
     public ResponseEntity<ResponseDto> addToCart(@PathVariable Long medicineId, @RequestParam(required = false) Integer units){
-        System.out.println("Triggered");
         return ResponseEntity.ok(cartService.addToCart(medicineId, units));
     }
 
