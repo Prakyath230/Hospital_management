@@ -1,5 +1,6 @@
 package com.hospital.Hospital_management.controller;
 
+import com.hospital.Hospital_management.dto.CartResponseDto;
 import com.hospital.Hospital_management.dto.ResponseDto;
 import com.hospital.Hospital_management.entity.Cart;
 import com.hospital.Hospital_management.service.CartService;
@@ -8,7 +9,6 @@ import org.apache.coyote.Response;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 @RestController
@@ -36,11 +36,22 @@ public class CartController {
                                                           @RequestParam(required = false) Integer units) {
         return ResponseEntity.ok(cartService.updateCartQuantity(medicineId, units));
     }
-
-    @PreAuthorize("hasRole('PATIENT')")
     @GetMapping
-    public ResponseEntity<List<Cart>> viewCart() {
-        return ResponseEntity.ok(cartService.viewCart());
+    @PreAuthorize("hasRole('PATIENT')")
+    public ResponseEntity<List<CartResponseDto>> viewCart() {
+        List<Cart> cartItems = cartService.viewCart();
+        List<CartResponseDto> response = cartItems.stream().map(c -> {
+            CartResponseDto dto = new CartResponseDto();
+            dto.setCartId(c.getCartId());
+            dto.setUnits(c.getUnits());
+            dto.setTotalPrice(c.getTotalPrice());
+            dto.setMedicineId(c.getMedicine().getId());
+            dto.setName(c.getMedicine().getName());
+            dto.setPrice(c.getMedicine().getPrice());
+            dto.setImage(c.getMedicine().getImage());
+            return dto;
+        }).toList();
+        return ResponseEntity.ok(response);
     }
 
     @PreAuthorize("hasRole('PATIENT')")
