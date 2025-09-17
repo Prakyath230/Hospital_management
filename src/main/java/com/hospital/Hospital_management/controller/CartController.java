@@ -1,5 +1,6 @@
 package com.hospital.Hospital_management.controller;
 
+import com.hospital.Hospital_management.dto.CartItemResDto;
 import com.hospital.Hospital_management.dto.ResponseDto;
 import com.hospital.Hospital_management.entity.Cart;
 import com.hospital.Hospital_management.service.CartService;
@@ -37,7 +38,7 @@ public class CartController {
 
     @PreAuthorize("hasRole('PATIENT')")
     @GetMapping
-    public ResponseEntity<List<Cart>> viewCart() {
+    public ResponseEntity<List<CartItemResDto>> viewCart() {
         return ResponseEntity.ok(cartService.viewCart());
     }
 

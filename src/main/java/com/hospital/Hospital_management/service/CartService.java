@@ -1,5 +1,6 @@
 package com.hospital.Hospital_management.service;
 
+import com.hospital.Hospital_management.dto.CartItemResDto;
 import com.hospital.Hospital_management.dto.ResponseDto;
 import com.hospital.Hospital_management.entity.Cart;
 import com.hospital.Hospital_management.entity.Medicine;
@@ -21,6 +22,20 @@ public class CartService {
     private final UserRepository userRepo;
     private final MedicineRepository medicineRepo;
     private final CartRepository cartRepo;
+
+
+    public CartItemResDto mapToDto(Cart cart){
+        CartItemResDto resDto=new CartItemResDto();
+        resDto.setUnits(cart.getUnits());
+        resDto.setName(cart.getMedicine().getName());
+        resDto.setImageUrl(cart.getMedicine().getImage());
+        resDto.setTotalPrice(cart.getTotalPrice());
+        resDto.setMedicineId(cart.getMedicine().getId());
+
+        return resDto;
+
+
+    }
 
     public User getCurrentUser(){
         String username= SecurityContextHolder.getContext().getAuthentication().getName();
@@ -72,9 +87,15 @@ public class CartService {
         return new ResponseDto("Cart quantity updated successfully");
     }
 
-    public List<Cart> viewCart() {
+    public List<CartItemResDto> viewCart() {
         User user = getCurrentUser();
-        return cartRepo.findByUser_Id(user.getId());
+
+        return cartRepo.findByUser_Id(user.getId())
+                .stream()
+                .map(this::mapToDto)
+                .toList();
+
+
     }
 
     public ResponseDto clearCart() {
